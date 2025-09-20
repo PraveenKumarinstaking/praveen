@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sample Website — Praveen</title>
+  <style>
+    /* ====== Reset & base ====== */
+    :root{
+      --bg:#f7f8fb;
+      --card:#fff;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --glass: rgba(255,255,255,0.6);
+      --radius:12px;
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    [data-theme="dark"]{
+      --bg:#0b1220;
+      --card:#0f1724;
+      --muted:#9aa4b2;
+      --accent:#60a5fa;
+      --glass: rgba(255,255,255,0.03);
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,var(--bg), #e9eef8 200%);
+      color: #0f1724;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding:0 16px;
+    }
+    [data-theme="dark"] body { color: #e6eef9; }
+
+    /* ====== Layout ====== */
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      justify-content:space-between;
+      padding:18px 0;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color:inherit;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      display:grid;place-items:center;font-weight:700;
+      background:linear-gradient(135deg,var(--accent), #7c3aed);
+      color:#fff;
+      box-shadow: 0 6px 18px rgba(37,99,235,0.12);
+      flex-shrink:0;
+    }
+
+    nav ul{
+      list-style:none;
+      display:flex;
+      gap:14px;
+      margin:0;
+      padding:0;
+      align-items:center;
+    }
+    nav a{
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:600;
+      font-size:15px;
+    }
+    nav a:hover{color:var(--accent)}
+
+    /* Hamburger (mobile) */
+    .menu-btn{
+      display:none;
+      background:transparent;border:0;padding:8px;border-radius:8px;
+    }
+    .menu-btn:focus{outline:2px solid var(--accent)}
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:36px 0 28px;
+    }
+    .hero .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow: 0 6px 22px rgba(10,20,40,0.06);
+    }
+    .hero h1{margin:0 0 8px; font-size:28px}
+    .hero p{margin:0 0 18px; color:var(--muted)}
+
+    .cta{
+      display:inline-block;padding:10px 14px;border-radius:10px;
+      background:linear-gradient(90deg,var(--accent), #7c3aed);
+      color:#fff;text-decoration:none;font-weight:700;
+      box-shadow:0 8px 24px rgba(37,99,235,0.12);
+    }
+
+    /* Features */
+    .features{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+      margin:22px 0 36px;
+    }
+    .feature{
+      background:var(--card);padding:16px;border-radius:12px;
+      box-shadow:0 6px 12px rgba(10,20,40,0.04);
+    }
+    .feature h3{margin:0 0 6px;font-size:16px}
+    .feature p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Gallery */
+    .gallery{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:10px;margin:18px 0;
+    }
+    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;display:block}
+
+    /* Contact form */
+    .contact{
+      background:var(--card);border-radius:12px;padding:16px;margin:28px 0 60px;
+      box-shadow:0 10px 30px rgba(2,6,23,0.06);
+    }
+    label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+    input,textarea,select{
+      width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e6eef8;
+      background:transparent;font-size:14px;color:inherit;
+    }
+    textarea{min-height:120px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:10px}
+    button.primary{
+      padding:10px 14px;border-radius:10px;border:0;font-weight:700;
+      background:linear-gradient(90deg,var(--accent), #7c3aed);color:#fff;
+    }
+    .note{color:var(--muted);font-size:13px}
+
+    /* Footer */
+    footer{padding:28px 0;color:var(--muted);font-size:14px;text-align:center}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .menu-btn{display:block}
+      nav ul{display:none}
+    }
+
+    /* small niceties */
+    .kbd{background:var(--glass);padding:4px 8px;border-radius:8px;font-size:13px}
+    .muted{color:var(--muted);font-size:14px}
+    .success{color:green;font-weight:700}
+    .error{color:#ef4444;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="#">
+        <div class="logo">PK</div>
+        <div>
+          <div style="font-weight:800">Praveen's Site</div>
+          <div style="font-size:12px;color:var(--muted)">Simple website template</div>
+        </div>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav" title="Toggle menu">
+          ☰
+        </button>
+        <ul id="mainNav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <button id="themeToggle" class="kbd" title="Toggle dark / light">🌓 Theme</button>
+        <a class="cta" href="#contact">Get in touch</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="card">
+          <h1>Build fast, beautiful websites</h1>
+          <p>Create responsive pages with HTML, CSS and JavaScript — ready to customise for projects, portfolios, or small businesses.</p>
+
+          <div class="features" style="margin-top:8px">
+            <div class="feature">
+              <h3>Responsive</h3>
+              <p>Layouts that adapt to phones, tablets, and desktops.</p>
+            </div>
+            <div class="feature">
+              <h3>Vanilla JS</h3>
+              <p>No frameworks — easy to understand and extend.</p>
+            </div>
+            <div class="feature">
+              <h3>Dark mode</h3>
+              <p>User-toggleable theme stored in localStorage.</p>
+            </div>
+          </div>
+
+          <p class="note">Tip: Press the <span class="kbd">Theme</span> button to try dark mode.</p>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h3>Quick demo</h3>
+            <p class="muted" id="timeNow">Loading time...</p>
+            <hr style="opacity:.06;margin:12px 0">
+            <div>
+              <strong>Newsletter</strong>
+              <p class="muted" style="margin:6px 0 12px">Enter email to save locally (demo).</p>
+              <div style="display:flex;gap:8px">
+                <input id="newsEmail" placeholder="you@example.com" aria-label="newsletter email">
+                <button id="saveEmail" class="primary">Save</button>
+              </div>
+              <p id="emailMsg" style="margin-top:8px"></p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="features">
+        <h2 style="margin:6px 0 12px">Why use this template?</h2>
+        <div class="features">
+          <div class="feature">
+            <h3>Easy to customise</h3>
+            <p>All styles and JS are in one file — good for learning and quick prototypes.</p>
+          </div>
+          <div class="feature">
+            <h3>Accessible</h3>
+            <p>Keyboard-friendly components and semantic HTML.</p>
+          </div>
+          <div class="feature">
+            <h3>Performance</h3>
+            <p>Minimal external dependencies and small CSS/JS payload.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery">
+        <h2>Gallery</h2>
+        <p class="muted">Sample images (you can replace these with your own).</p>
+        <div class="gallery" aria-live="polite">
+          <img src="https://picsum.photos/id/1015/600/400" alt="Landscape sample 1">
+          <img src="https://picsum.photos/id/1025/600/400" alt="Landscape sample 2">
+          <img src="https://picsum.photos/id/1035/600/400" alt="Landscape sample 3">
+          <img src="https://picsum.photos/id/1045/600/400" alt="Landscape sample 4">
+        </div>
+      </section>
+
+      <section id="contact" class="contact" aria-labelledby="contactTitle">
+        <h2 id="contactTitle">Contact</h2>
+        <p class="muted">Send a message — this demo only validates and stores to localStorage (no backend).</p>
+
+        <form id="contactForm" novalidate>
+          <div class="row">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Your full name" required>
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" placeholder="Subject (e.g., Inquiry)">
+          </div>
+
+          <div style="margin-top:12px">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary">Send message</button>
+            <button type="button" id="clearBtn" style="padding:8px 12px;border-radius:10px;border:1px solid #e6eef8;background:transparent">Clear</button>
+            <div id="formResult" style="margin-left:12px"></div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Praveen — Built with HTML, CSS & JS • <span class="muted">No dependencies</span>
+    </footer>
+  </div>
+
+  <script>
+    // ====== Small interactions ======
+    (function(){
+      const root = document.documentElement;
+      const themeToggle = document.getElementById('themeToggle');
+      const menuBtn = document.getElementById('menuBtn');
+      const mainNav = document.getElementById('mainNav');
+      const year = document.getElementById('year');
+
+      // set current year
+      year.textContent = new Date().getFullYear();
+
+      // Theme: read from localStorage
+      const savedTheme = localStorage.getItem('site-theme');
+      if (savedTheme) root.setAttribute('data-theme', savedTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('site-theme', next);
+      });
+
+      // Mobile menu
+      let open = false;
+      menuBtn.addEventListener('click', () => {
+        open = !open;
+        menuBtn.setAttribute('aria-expanded', open);
+        mainNav.style.display = open ? 'flex' : 'none';
+      });
+
+      // Show current time in demo card
+      const timeNow = document.getElementById('timeNow');
+      function updateTime(){ timeNow.textContent = new Date().toLocaleString(); }
+      updateTime();
+      setInterval(updateTime, 1000);
+
+      // Newsletter demo save
+      const saveEmail = document.getElementById('saveEmail');
+      const newsEmail = document.getElementById('newsEmail');
+      const emailMsg = document.getElementById('emailMsg');
+      saveEmail.addEventListener('click', () => {
+        const v = newsEmail.value.trim();
+        if(!v || !v.includes('@')) {
+          emailMsg.textContent = 'Please enter a valid email';
+          emailMsg.className = 'error';
+          return;
+        }
+        localStorage.setItem('newsletter-email', v);
+        emailMsg.textContent = 'Saved locally ✔';
+        emailMsg.className = 'success';
+        setTimeout(()=>{ emailMsg.textContent=''; }, 2500);
+      });
+
+      // Contact form: simple validation + store
+      const contactForm = document.getElementById('contactForm');
+      const formResult = document.getElementById('formResult');
+      const clearBtn = document.getElementById('clearBtn');
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        formResult.textContent = '';
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        if(!name || !email || !message){
+          formResult.textContent = 'Please complete required fields.';
+          formResult.className = 'error';
+          return;
+        }
+        // store to localStorage as demo (replace with real API in production)
+        const submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+        submissions.push({
+          id: Date.now(),
+          name, email, subject: document.getElementById('subject').value.trim(), message
+        });
+        localStorage.setItem('submissions', JSON.stringify(submissions));
+        formResult.textContent = 'Message saved locally — demo only ✔';
+        formResult.className = 'success';
+        contactForm.reset();
+        setTimeout(()=>{ formResult.textContent=''; }, 3000);
+      });
+
+      clearBtn.addEventListener('click', () => {
+        contactForm.reset();
+        formResult.textContent = 'Form cleared';
+        formResult.className = '';
+        setTimeout(()=>{ formResult.textContent=''; }, 1500);
+      });
+
+      // Accessibility: link focus visible
+      document.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Tab') document.body.classList.add('user-is-tabbing');
+      });
+
+      // Close nav on link click (mobile)
+      mainNav.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', ()=> {
+          if(window.innerWidth <= 900){
+            mainNav.style.display = 'none';
+            menuBtn.setAttribute('aria-expanded', 'false');
+            open = false;
+          }
+        });
+      });
+
+      // Ready: show saved newsletter if exists
+      const saved = localStorage.getItem('newsletter-email');
+      if(saved) {
+        newsEmail.value = saved;
+        emailMsg.textContent = 'Loaded saved email';
+        emailMsg.className = 'muted';
+        setTimeout(()=>{ emailMsg.textContent=''; emailMsg.className=''; }, 2000);
+      }
+    })();
+  </script>
+</body>
+</html>
